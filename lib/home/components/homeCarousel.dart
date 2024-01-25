@@ -1,4 +1,6 @@
 import 'package:animecrunch/shimmers/sectionShimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,30 +28,37 @@ class CarouselPage extends StatelessWidget {
             ].map((i) {
               return Builder(
                 builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 3.0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        image:
-                            DecorationImage(image: NetworkImage(i.thumbUrl),fit: BoxFit.cover),),
-                    child: SizedBox(
-                      width: 300,
-                      child: Center(
-                        child: Text(
-                          i.title,
-                          style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                              fontSize: 16.0,
-                            fontFamily: 'os',
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                color: Theme.of(context).scaffoldBackgroundColor,
-                                offset:const Offset(2, 2)
-                              )
-                            ]
+                  return CachedNetworkImage(
+                    imageUrl: i.thumbUrl,
+                    placeholder: (context,url) => const CupertinoActivityIndicator(),
+                    imageBuilder:(context,provider) => Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 3.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
+                          image:
+                              DecorationImage(
+                                  image: provider,
+                                  fit: BoxFit.cover),
+                      ),
+                      child: SizedBox(
+                        width: 300,
+                        child: Center(
+                          child: Text(
+                            i.title,
+                            style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                fontSize: 16.0,
+                              fontFamily: 'os',
+                              fontWeight: FontWeight.bold,
+                              shadows: [
+                                Shadow(
+                                  color: Theme.of(context).scaffoldBackgroundColor,
+                                  offset:const Offset(2, 2)
+                                )
+                              ]
+                            ),
                           ),
                         ),
                       ),

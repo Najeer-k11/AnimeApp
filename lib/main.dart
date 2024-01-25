@@ -1,12 +1,11 @@
 import 'package:animecrunch/config/theme.dart';
+import 'package:animecrunch/favourites/localProvider/sqlImp.dart';
 import 'package:animecrunch/home/blocSetup.dart';
 import 'package:animecrunch/home/homebloc/home_bloc.dart';
-import 'package:animecrunch/injector.dart';
-import 'package:animecrunch/search/searchPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 

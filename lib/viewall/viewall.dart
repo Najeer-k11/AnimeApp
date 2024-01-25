@@ -1,4 +1,5 @@
 import 'package:animecrunch/fullDetail/detailPage.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +24,7 @@ class ViewAll extends StatelessWidget {
           scrollDirection: Axis.vertical,
           itemCount: data.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 0.8, crossAxisCount: 3),
+              childAspectRatio: 0.7, crossAxisCount: 3),
           itemBuilder: (context, id) {
             return GestureDetector(
               onTap: () {
@@ -40,15 +41,19 @@ class ViewAll extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 140,
-                    width: 120,
-                    margin: const EdgeInsets.only(right: 2, left: 2),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      image: DecorationImage(
-                          image: NetworkImage(data[id].thumbUrl),
-                          fit: BoxFit.cover),
+                  CachedNetworkImage(
+                    imageUrl: data[id].thumbUrl,
+                    placeholder: (context,url) => const CircularProgressIndicator(),
+                    imageBuilder:(context,provider) => Container(
+                      height: 140,
+                      width: 120,
+                      margin: const EdgeInsets.only(right: 2, left: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        image: DecorationImage(
+                            image: provider,
+                            fit: BoxFit.cover),
+                      ),
                     ),
                   ),
                   Padding(

@@ -44,7 +44,7 @@ class SearchPage extends StatelessWidget {
                   itemCount: state.data.length,
                   padding: const EdgeInsets.only(top: 8),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.8, crossAxisCount: 3),
+                      childAspectRatio: 0.7, crossAxisCount: 3),
                   itemBuilder: (context, id) {
                     return GestureDetector(
                       onTap: () {

@@ -1,7 +1,13 @@
+import 'package:animecrunch/favourites/favouritesPage.dart';
+import 'package:animecrunch/favourites/localProvider/localData.dart';
 import 'package:animecrunch/fullDetail/bloc/detail_bloc.dart';
+import 'package:animecrunch/models/item.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
+
+import '../favourites/bloc/fav_bloc.dart';
 
 class DetailPage extends StatelessWidget {
   final int id;
@@ -11,8 +17,13 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final db = DetailBloc();
-    return BlocProvider(
-      create: (context) => db..add(DetailFetchEvent(id: id.toString())),
+    final fb = FavBloc();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+        create: (context) => db..add(DetailFetchEvent(id: id.toString(),),),),
+        BlocProvider(create: (context) => fb)
+      ],
       child: const DetailScaffold(),
     );
   }
@@ -33,41 +44,54 @@ class DetailScaffold extends StatelessWidget {
             return ListView(
               scrollDirection: Axis.vertical,
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.45,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(state.detail.imageUrl),
-                          fit: BoxFit.cover)),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 12,
-                  ),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(LineIcons.chevronLeft),
+                CachedNetworkImage(
+                  imageUrl: state.detail.imageUrl,
+                  placeholder: (context,url) => const CircularProgressIndicator(),
+                  imageBuilder:(context,provider) => Container(
+                    height: MediaQuery.of(context).size.height * 0.45,
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: provider,
+                            fit: BoxFit.cover)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(LineIcons.chevronLeft),
+                            ),
                           ),
-                        ),
-                        CircleAvatar(
-                          backgroundColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(LineIcons.heart),
-                          ),
-                        )
-                      ],
+                          CircleAvatar(
+                            backgroundColor:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            child: IconButton(
+                              onPressed: () {
+                                Item itm = Item(
+                                    id: state.detail.id,
+                                    title: state.detail.title,
+                                    thumbUrl: state.detail.imageUrl,
+                                    rating: state.detail.rating);
+                                BlocProvider.of<FavBloc>(context)
+                                    .add(FavInsert(it: itm));
+                                showSnack(context);
+                              },
+                              icon: const Icon(LineIcons.heart),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -81,8 +105,9 @@ class DetailScaffold extends StatelessWidget {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       boxShadow: [
                         BoxShadow(
-                          color: Theme.of(context).shadowColor.withOpacity(0.25),
-                          offset: const Offset(2,4),
+                          color:
+                              Theme.of(context).shadowColor.withOpacity(0.25),
+                          offset: const Offset(2, 4),
                           blurRadius: 5,
                         )
                       ],
@@ -99,7 +124,7 @@ class DetailScaffold extends StatelessWidget {
                           children: [
                             const Text(
                               "Title : ",
-                              style:  TextStyle(
+                              style: TextStyle(
                                   fontFamily: 'os',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 15,
@@ -119,14 +144,16 @@ class DetailScaffold extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Divider(color: Theme.of(context).dividerColor,),
+                      Divider(
+                        color: Theme.of(context).dividerColor,
+                      ),
                       SizedBox(
                         height: 25,
                         child: Row(
                           children: [
                             const Text(
                               "Rating : ",
-                              style:  TextStyle(
+                              style: TextStyle(
                                   fontFamily: 'os',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 15,
@@ -149,11 +176,11 @@ class DetailScaffold extends StatelessWidget {
                       SizedBox(
                         height: 20,
                         width: MediaQuery.of(context).size.width * 0.8,
-                        child:Row(
+                        child: Row(
                           children: [
                             const Text(
                               "Score : ",
-                              style:  TextStyle(
+                              style: TextStyle(
                                   fontFamily: 'os',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 15,
@@ -189,7 +216,7 @@ class DetailScaffold extends StatelessWidget {
                             ),
                             const Text(
                               " reviews",
-                              style:  TextStyle(
+                              style: TextStyle(
                                   fontFamily: 'os',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 15,
@@ -239,5 +266,9 @@ class DetailScaffold extends StatelessWidget {
         },
       ),
     );
+  }
+  void showSnack(BuildContext context) {
+    SnackBar snack = const SnackBar(content: Text('Added to Favourites'),duration: Duration(seconds: 3),);
+    ScaffoldMessenger.of(context).showSnackBar(snack);
   }
 }

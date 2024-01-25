@@ -41,7 +41,10 @@ dependencies:
   provider:
   get_it:
   carousel_slider: ^4.2.1
-  line_icons: 
+  line_icons:
+  path_provider:
+  sqflite:
+  cached_network_image:
 
 
 dev_dependencies:

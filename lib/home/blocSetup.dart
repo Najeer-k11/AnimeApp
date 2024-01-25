@@ -1,3 +1,4 @@
+import 'package:animecrunch/favourites/favouritesPage.dart';
 import 'package:animecrunch/home/components/homeCarousel.dart';
 import 'package:animecrunch/search/searchPage.dart';
 import 'package:animecrunch/shimmers/sectionShimmer.dart';
@@ -28,11 +29,11 @@ class BlocPage extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.deepOrangeAccent,
                     fontWeight: FontWeight.bold,
-                fontFamily: 'os'),
+                    fontFamily: 'os'),
               ),
               Text(
                 'Crunch',
-                style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'os'),
+                style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'os'),
               ),
             ],
           ),
@@ -57,7 +58,10 @@ class BlocPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: const Text(
                   'Top Anime',
-                  style: TextStyle(fontWeight: FontWeight.w500,fontFamily: 'os', fontSize: 18),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'os',
+                      fontSize: 18),
                 ),
               ),
               const SizedBox(
@@ -66,7 +70,10 @@ class BlocPage extends StatelessWidget {
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
                   if (state is HomeLoaded) {
-                    return Section(data: state.data,type: 'anime',);
+                    return Section(
+                      data: state.data,
+                      type: 'anime',
+                    );
                   }
                   return const SectionShimmer();
                 },
@@ -80,7 +87,10 @@ class BlocPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: const Text(
                   'Top Manga',
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18,fontFamily: 'os'),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                      fontFamily: 'os'),
                 ),
               ),
               const SizedBox(
@@ -89,7 +99,10 @@ class BlocPage extends StatelessWidget {
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
                   if (state is HomeLoaded) {
-                    return Section(data: state.rand,type: 'manga',);
+                    return Section(
+                      data: state.rand,
+                      type: 'manga',
+                    );
                   }
                   return const SectionShimmer();
                 },
@@ -98,6 +111,7 @@ class BlocPage extends StatelessWidget {
           ),
         ),
         drawer: Drawer(
+
           width: MediaQuery.of(context).size.width * 0.45,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           shape: const RoundedRectangleBorder(
@@ -111,10 +125,17 @@ class BlocPage extends StatelessWidget {
             children: [
               DrawerHeader(
                 decoration: BoxDecoration(color: Colors.primaries.first),
-                child: const Text("Anime Crunch",style: TextStyle(fontFamily: 'os',fontWeight: FontWeight.w700),),
+                child: const Text(
+                  "Anime Crunch",
+                  style:
+                      TextStyle(fontFamily: 'os', fontWeight: FontWeight.w700),
+                ),
               ),
               ListTile(
-                title: const Text("Search",style: TextStyle(fontFamily: 'os'),),
+                title: const Text(
+                  "Search",
+                  style: TextStyle(fontFamily: 'os'),
+                ),
                 leading: const Icon(LineIcons.search),
                 onTap: () {
                   Navigator.push(
@@ -126,14 +147,27 @@ class BlocPage extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: const Text('Settings',style: TextStyle(fontFamily: 'os'),),
+                title: const Text(
+                  'Settings',
+                  style: TextStyle(fontFamily: 'os'),
+                ),
                 leading: const Icon(Icons.settings_rounded),
                 onTap: () {},
               ),
               ListTile(
-                title: const Text('Favourites',style: TextStyle(fontFamily: 'os'),),
+                title: const Text(
+                  'Favourites',
+                  style: TextStyle(fontFamily: 'os'),
+                ),
                 leading: const Icon(Icons.favorite_outline_rounded),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FavouritesPage(),
+                    ),
+                  );
+                },
               )
             ],
           ),

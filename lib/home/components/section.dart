@@ -1,5 +1,7 @@
 import 'package:animecrunch/fullDetail/detailPage.dart';
 import 'package:animecrunch/viewall/viewall.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/item.dart';
@@ -69,23 +71,27 @@ class Section extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 140,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        image: DecorationImage(
-                            image: NetworkImage(data[id].thumbUrl),
-                            fit: BoxFit.cover),
+                    CachedNetworkImage(
+                      imageUrl: data[id].thumbUrl,
+                      placeholder: (context,url) => const CupertinoActivityIndicator(),
+                      imageBuilder:(context,provider) => Container(
+                        height: 140,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
+                          image: DecorationImage(
+                              image: provider,
+                              fit: BoxFit.cover),
+                        ),
+                        // foregroundDecoration: BoxDecoration(
+                        //   borderRadius: BorderRadius.circular(24),
+                        //   gradient: const LinearGradient(
+                        //     colors: [Colors.black, Colors.transparent],
+                        //     begin: Alignment.bottomCenter,
+                        //     end: Alignment.topCenter,
+                        //   ),
+                        // ),
                       ),
-                      // foregroundDecoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.circular(24),
-                      //   gradient: const LinearGradient(
-                      //     colors: [Colors.black, Colors.transparent],
-                      //     begin: Alignment.bottomCenter,
-                      //     end: Alignment.topCenter,
-                      //   ),
-                      // ),
                     ),
                     Padding(
                       padding:
