@@ -1,5 +1,4 @@
-import 'package:animecrunch/favourites/favouritesPage.dart';
-import 'package:animecrunch/favourites/localProvider/localData.dart';
+
 import 'package:animecrunch/fullDetail/bloc/detail_bloc.dart';
 import 'package:animecrunch/models/item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
