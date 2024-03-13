@@ -4,13 +4,10 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Anime Crunch an app powered by [Jikan API](https://jikan.moe)
+It has Manga and anime sections and search featured.
+Added favourite section on navigation drawer. Need to implement settings page and manga details page
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# APP images
+![Anime crunch - 1](https://github.com/Najeer-k11/AnimeApp/assets/93590694/8b8949f2-5331-4f43-9e28-a40f1416d4ce)
+![Anime crunch - 2](https://github.com/Najeer-k11/AnimeApp/assets/93590694/a9fa8b58-4e8d-4f31-beee-d10b364eb456)
