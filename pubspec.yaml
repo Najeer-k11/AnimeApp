@@ -42,7 +42,7 @@ dependencies:
   get_it:
   carousel_slider: ^5.0.0
   line_icons:
-  path_provider:
+  path_provider: ^2.1.5
   sqflite:
   cached_network_image:
 
