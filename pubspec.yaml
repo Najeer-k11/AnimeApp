@@ -40,7 +40,7 @@ dependencies:
   shared_preferences:
   provider:
   get_it:
-  carousel_slider: ^4.2.1
+  carousel_slider: ^5.0.0
   line_icons:
   path_provider:
   sqflite:
